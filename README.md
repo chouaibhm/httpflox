@@ -28,7 +28,7 @@ https://example.com:8443 [302] [  ]
 ```
 ## Run httpflox in silent mode and Pipe output to file
 ``` 
-$> cat ips.txt | httpflox | tee output.txt
+$> cat ips.txt | httpflox -silent | tee output.txt
 http://example.com
 https://192.168.1.54
 https://192.168.1.14:9090
