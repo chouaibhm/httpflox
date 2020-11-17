@@ -39,14 +39,14 @@ func main() {
         flag.Parse()
         //TLS stuff
 
-        timeout := time.Duration(to * 1000000)
+        timeout := time.Duration(to * 1000000) //na9it 0 for more speed
 
         var tr = &http.Transport{
-                MaxIdleConns:    30,
-                IdleConnTimeout: time.Second,
-                //MaxIdleConnsPerHost: -1,
-                DisableKeepAlives: true,
-                TLSClientConfig:   &tls.Config{InsecureSkipVerify: true},
+                MaxIdleConns:        30,
+                IdleConnTimeout:     time.Second,
+                MaxIdleConnsPerHost: -1,
+                DisableKeepAlives:   true,
+                TLSClientConfig:     &tls.Config{InsecureSkipVerify: true},
                 DialContext: (&net.Dialer{
                         Timeout:   timeout,
                         KeepAlive: time.Second,
@@ -190,24 +190,26 @@ func status_title(client *http.Client, url string) string {
         if err != nil {
                 log.Fatal(err)
         }
+        req.Header.Add("Connection", "close")
+        req.Close = true
 
-        resp, err := client.Do(req)
+        resp, _ := client.Do(req)
 
-        //resp, err := http.Get(url)
-
-        if err != nil {
-                log.Fatal(err)
-        }
         // Get page status
-        status := strconv.Itoa(resp.StatusCode)
-        //parse page for title
-        doc, err := goquery.NewDocumentFromReader(resp.Body)
-        if err != nil {
-                log.Fatal(err)
+        if resp != nil {
+                status := strconv.Itoa(resp.StatusCode)
+                doc, _ := goquery.NewDocumentFromReader(resp.Body)
+                if doc != nil {
+                        //parse page for title
+                        title := doc.Find("title").Contents().Text()
+                        b := "[" + status + "]" + "  " + "[ " + string(title) + " ]"
+                        defer resp.Body.Close()
+
+                        return b
+
+                }
         }
 
-        title := doc.Find("title").Contents().Text()
-        b := "[" + status + "]" + "  " + "[ " + string(title) + " ]"
-        return b
+        return ""
 
 }
