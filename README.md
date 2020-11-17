@@ -19,16 +19,16 @@ Usage of httpflox:
 
 ```
 ## Run httpflox 
-``` $> cat ips.txt | httpflox
-
+``` 
+$> cat ips.txt | httpflox 
 http://example.com [200]  [ IIS Windows Server ]
 https://192.168.1.54 [200]  [ Welcome]
 https://192.168.1.14:9090 [Jboss]
 https://example.com:8443 [302] [  ]
 ```
 ## Run httpflox in silent mode and Pipe output to file
-``` $> cat ips.txt | httpflox | tee output.txt
-
+``` 
+$> cat ips.txt | httpflox | tee output.txt
 http://example.com
 https://192.168.1.54
 https://192.168.1.14:9090
