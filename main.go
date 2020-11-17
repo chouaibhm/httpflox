@@ -16,6 +16,7 @@ import (
         "strings"
         "sync"
         "time"
+        //"regexp"
 )
 
 func main() {
@@ -202,7 +203,7 @@ func status_title(client *http.Client, url string) string {
                 if doc != nil {
                         //parse page for title
                         title := doc.Find("title").Contents().Text()
-                        b := "[" + status + "]" + "  " + "[ " + string(title) + " ]"
+                        b := "[" + status + "]" + "  " + "[ " + strings.Replace(title, "\n","",-1) + " ]"
                         defer resp.Body.Close()
 
                         return b
