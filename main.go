@@ -141,7 +141,7 @@ func main() {
                 domain := strings.ToLower(sc.Text())
                 // Adding port list
                 httpsURLs <- domain
-                portlist := []string{"8080", "8081", "8082", "8443", "8181", "8081", "8888", "9200", "9090","7001"}
+                portlist := []string{"8080", "8081", "8082", "8443", "8181", "8888", "9200", "9090","7001"}
 
                 for _, port := range portlist {
                         httpsURLs <- fmt.Sprintf("%s:%s", domain, port)
