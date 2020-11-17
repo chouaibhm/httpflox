@@ -39,7 +39,7 @@ func main() {
         flag.Parse()
         //TLS stuff
 
-        timeout := time.Duration(to * 1000000) //na9it 0 for more speed
+        timeout := time.Duration(to * 1000000) //- 0 for more speed
 
         var tr = &http.Transport{
                 MaxIdleConns:        30,
